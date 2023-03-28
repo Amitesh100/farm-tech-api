@@ -12,6 +12,7 @@ const port = process.env.PORT;
 // routes import
 
 const equipmentRoutes = require('./routes/equipments.routes');
+const userRoutes = require("./routes/users.routes");
 
 // Database connection
 
@@ -33,6 +34,7 @@ app.use(cors({
 
 // routes to handle requests
 
+app.use("/", userRoutes);
 app.use("/equipments", equipmentRoutes);
 
 // Handling errors 

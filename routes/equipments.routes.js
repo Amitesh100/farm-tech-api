@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const EquipmentsController = require("../controllers/equipments.controller");
+const checkAuth = require("../auth/check-auth");
 
 const storage = multer.diskStorage({
    // destination to store the uploaded file
@@ -35,7 +36,7 @@ const upload = multer({
 // listing of the equipments route
 
 router.get("/", EquipmentsController.equipments_get_all);
-router.post("/", upload.single('equipmentImage'), EquipmentsController.equipment_post);
+router.post("/", checkAuth, upload.single('equipmentImage'), EquipmentsController.equipment_post);
 router.get("/:equipmentId", EquipmentsController.equipment_view);
 
 module.exports = router;
