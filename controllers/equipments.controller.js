@@ -17,11 +17,11 @@ const equipments_get_all = (req, res) => {
                name: doc.name,
                price: doc.price,
                _id: doc._id,
-               productImage: doc.productImage,
+               equipmentImage: doc.equipmentImage,
                availability: doc.availability,
                request: {
                   type: "GET",
-                  url: `http://localhost:3000/products/${doc._id}`
+                  url: `http://localhost:8000/equipments/${doc._id}`
                }
             }
          })
@@ -40,7 +40,7 @@ const equipment_post = (req, res) => {
    const equipment = new Equipment({
       name: req.body.name,
       price: req.body.price,
-      equipmentImage: req.body.equipmentImage
+      equipmentImage: req.file.path
    })
    equipment.save().then(result => res.status(201).json({
       message: "Equipment successfully applied for rent",
@@ -48,6 +48,7 @@ const equipment_post = (req, res) => {
          name: result.name,
          price: result.price,
          _id: result._id,
+         equipmentImage: result.equipmentImage,
          request: {
             type: "GET",
             url: `http://localhost:8000/equipments/${result._id}`
@@ -61,7 +62,7 @@ const equipment_post = (req, res) => {
 const equipment_view = (req, res) => {
    const id = req.params.equipmentId;
    Equipment.findById(id)
-   .select("name price _id equipmentImage availability")
+   .select("name price _id equipmentImage")
    .exec()
    .then(doc => {
       console.log("From database: ", doc);
